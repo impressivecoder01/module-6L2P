@@ -19,6 +19,10 @@ export const productController = async (req: IncomingMessage, res:ServerResponse
     else if(method === 'GET' && id !== null){
     const products =  readProduct()
     const product = products.find((p : IProduct)=> p.id === id)
+    if(!product){
+        res.writeHead(404,{'content-type': 'application/json'})
+        res.end(JSON.stringify({message: "Product not found", data:products}))
+    }
     res.writeHead(200,{'content-type': 'application/json'})
     res.end(JSON.stringify({message: "Product retrieved successfully", data: product}))
     }
